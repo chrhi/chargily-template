@@ -12,14 +12,11 @@ interface Product_details {
   product_name: string;
   product_price: number;
 }
-export const useChargily = ({
-  product_name,
-  product_price,
-}: Product_details) => {
+export const useChargily = () => {
   // Define a custom hook useChargily that takes product_name and product_price as parameters
   const router = useRouter(); // Using the useRouter hook to get access to Next.js router
 
-  const pay = async () => {
+  const pay = async ({ product_name, product_price }: Product_details) => {
     // Define an asynchronous function pay
     try {
       const product = await create_product({ product_name }); // Creating a product with the given product_name
@@ -37,7 +34,7 @@ export const useChargily = ({
       const checkout = await create_checkout({
         // Creating a checkout with the created price's id and a success URL
         price_id: price.id,
-        success_url: "https://jadara.vercel.app",
+        success_url: "https://chargily-template.vercel.app/success",
       });
 
       if (!checkout?.checkout_url)
